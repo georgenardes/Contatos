@@ -113,28 +113,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    void carregarContatos(){
-        contatosRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+    void carregarContatos() {
+        contatosRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                contatosRecycleAdapter.contatoArrayList = new ArrayList<>();
-                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                    Contato contato = documentSnapshot.toObject(Contato.class);
-
-                    if(contato.get_id() > id){ // Verifica maior ID da coleção
-                        id = contato.get_id();
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    contatosRecycleAdapter.contatoArrayList = new ArrayList<>();
+                    for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                        Contato contato = documentSnapshot.toObject(Contato.class);
+                        if (contato.get_id() > id) { // Verifica maior ID da coleção
+                            id = contato.get_id();
+                        }
+                        contatosRecycleAdapter.contatoArrayList.add(0, contato);
                     }
-
-                    contatosRecycleAdapter.contatoArrayList.add(0,contato);
+                    contatosRecyclerView.setAdapter(contatosRecycleAdapter);
+                    contatosRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                } else {
+                    Log.d("Erooooooooooo", "Erro ao ler o doc");
                 }
-                contatosRecyclerView.setAdapter(contatosRecycleAdapter);
-                contatosRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("Erooooooooooo", e.getMessage());
             }
         });
     }
