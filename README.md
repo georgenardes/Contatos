@@ -1,2 +1,2 @@
 # Contatos
-Crud com android studio usando firebase
+Crud com android studio usando Cloud Firestore
