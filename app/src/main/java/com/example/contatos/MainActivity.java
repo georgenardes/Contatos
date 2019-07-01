@@ -127,7 +127,8 @@ public class MainActivity extends AppCompatActivity {
                         contatosRecycleAdapter.contatoArrayList.add(0, contato);
                     }
                     contatosRecyclerView.setAdapter(contatosRecycleAdapter);
-                    contatosRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    contatosRecyclerView.
+                            setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 } else {
                     Log.d("Erooooooooooo", "Erro ao ler o doc");
                 }
